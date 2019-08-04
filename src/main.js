@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
+import apolloProvider from './apollo'
 
 import VeLine from "v-charts/lib/line.common";
 import VeMap from "v-charts/lib/map.common";
@@ -15,6 +16,8 @@ import "echarts/lib/component/toolbox";
 import "echarts/lib/component/title";
 import "zrender/lib/svg/svg";
 import "v-charts/lib/style.css";
+import store from './store'
+import router from './router'
 
 [VeLine, VeMap, VeBar].forEach(comp => {
   Vue.component(comp.name, comp);
@@ -23,5 +26,8 @@ Vue.config.productionTip = false
 
 new Vue({
   vuetify,
+  store,
+  apolloProvider,
+  router,
   render: h => h(App)
 }).$mount('#app')
