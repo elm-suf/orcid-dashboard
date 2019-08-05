@@ -1,18 +1,24 @@
 <template>
-    <div class="home">
-        <v-flex xs12>
-            <v-combobox
-                    v-model="selected"
-                    @change="changed"
-                    :items="countries"
-                    label="Select a favorite activity or create a new one"
-            ></v-combobox>
-        </v-flex>
-        {{selected}}
-        {{selectedCountry}}
-        <HeatMap></HeatMap >
-        <BarChart v-if="selectedCountry"/>
-    </div>
+    <v-layout align-centerjustify-center>
+
+
+        <v-layout wrap justify-center>
+            <v-flex xs6 md4>
+                <v-combobox
+                        v-model="selected"
+                        @change="changed"
+                        :items="countries"
+                        label="Select a favorite activity or create a new one"
+                ></v-combobox>
+            </v-flex>
+            <v-flex xs12>
+                <HeatMap></HeatMap>
+            </v-flex>
+            <v-flex xs12>
+                <BarChart v-if="selectedCountry"/>
+            </v-flex>
+        </v-layout>
+    </v-layout>
 </template>
 
 <script>
@@ -40,9 +46,7 @@
             this.$store.dispatch('fetchMigrations')
         },
         computed: {
-            ...mapState([
-
-            ]),
+            ...mapState([]),
             ...mapGetters([
                 'selectedCountry',
                 'countries'

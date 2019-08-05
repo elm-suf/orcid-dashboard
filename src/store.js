@@ -54,7 +54,7 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        updateCurrent({commit, dispatch}, selected) {
+            updateCurrent({commit, dispatch}, selected) {
             commit('UPDATE_CURRENT', selected)
             dispatch('fetchInAndOutFromC1')
         },
