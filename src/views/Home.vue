@@ -3,29 +3,34 @@
         <v-flex xs12>
             <v-combobox
                     v-model="selected"
+                    @change="changed"
                     :items="countries"
                     label="Select a favorite activity or create a new one"
             ></v-combobox>
         </v-flex>
-
-        <BarChart  :params="selected" v-if="selected"/>
+        {{selected}}
+        {{selectedCountry}}
+        <HeatMap></HeatMap >
+        <BarChart v-if="selected"/>
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
     import BarChart from "../components/BarChart";
+    import HeatMap from "../components/HeatMap";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
         name: 'home',
         components: {
-            BarChart
+            BarChart,
+            HeatMap
         },
         data() {
             return {
                 chartData: {
                     columns: ["c2", "in", "out"],
-                    rows: this.$store.state.inAndOut
                 },
                 selected: ''
             }
@@ -34,8 +39,18 @@
             this.$store.dispatch('fetchCountries')
         },
         computed: {
-            countries() {
-                return this.$store.state.countries
+            ...mapState([
+                'countries'
+            ]),
+            ...mapGetters([
+                'selectedCountry'
+            ])
+        },
+        methods: {
+            changed() {
+                console.log('Change', this.selected)
+                this.$store.dispatch('updateCurrent', this.selected)
+                this.$store.dispatch('fetchInAndOutFromC1')
             }
         },
         created() {

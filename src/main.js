@@ -6,6 +6,7 @@ import apolloProvider from './apollo'
 import VeLine from "v-charts/lib/line.common";
 import VeMap from "v-charts/lib/map.common";
 import VeBar from "v-charts/lib/bar.common";
+import VeHeatMap from "v-charts/lib/heatmap";
 // The following dependencies can be selectively loaded on demand
 import "echarts/lib/component/markLine";
 import "echarts/lib/component/markPoint";
@@ -19,7 +20,7 @@ import "v-charts/lib/style.css";
 import store from './store'
 import router from './router'
 
-[VeLine, VeMap, VeBar].forEach(comp => {
+[VeLine, VeMap, VeBar, VeHeatMap].forEach(comp => {
   Vue.component(comp.name, comp);
 });
 Vue.config.productionTip = false

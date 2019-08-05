@@ -1,6 +1,5 @@
 <template>
     <v-container>
-        <h1>{{params}}</h1>
         <v-layout
                 text-center
                 wrap
@@ -10,39 +9,18 @@
             </v-flex>
         </v-layout>
 
-        <p>{{inAndOut}}</p>
     </v-container>
 </template>
 
 <script>
-    import {inAndOutFromC1} from "../apollo/queries";
+
+    import {mapGetters} from "vuex";
 
     export default {
-        props: ['params'],
-        data() {
-            return {
-                chartData: {
-                    columns: ['c2','in','out'],
-                    rows: []
-                }
-            }
-        },
-        beforeCreate() {
-            this.$store.dispatch('fetchInAndOutFromC1', this.params)
-        },
         computed: {
-            inAndOut() {
-                return this.$store.state.inAndOut
-            },
+            ...mapGetters([
+                'chartData'
+            ])
         },
-        watch:{
-            params: function (val) {
-                this.$store.dispatch('fetchInAndOutFromC1', val)
-                this.chartData.rows= this.inAndOut
-            }
-        },
-        created() {
-            this.chartData.rows= this.inAndOut
-        }
     };
 </script>
