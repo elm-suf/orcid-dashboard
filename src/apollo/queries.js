@@ -13,12 +13,23 @@ const inAndOutFromC1 = gql`
     }`;
 const queryAllCountries = gql`
     {
-        countries: migrations_in_out(distinct_on: c1) {
-            code: c1
+        countries: country {
+            name
+            code: iso2
+            continent
+        }
+    }`;
+const queryMigrations = gql`
+    {
+        migrations: migrations_in_out(where: {out: {_gte: "50"}}){
+            from: c1
+            to: c2
+            value: out
         }
     }`;
 
 export {
     inAndOutFromC1,
-    queryAllCountries
+    queryAllCountries,
+    queryMigrations
 }

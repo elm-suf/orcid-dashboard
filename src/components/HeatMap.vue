@@ -1,5 +1,5 @@
 <template>
-    <ve-heatmap :data="heatMapData" :settings="chartSettings"></ve-heatmap>
+    <ve-heatmap :events="chartEvents" :data="heatMapData" :settings="chartSettings"></ve-heatmap>
 </template>
 
 
@@ -12,32 +12,40 @@
             'heatMapData',
             'countries'
         ]),
-        created(){
-          this.chartSettings.xAxisList= this.countries
-          this.chartSettings.yAxisList= this.countries
+        created() {
+            this.chartSettings.xAxisList = this.countries
+            this.chartSettings.yAxisList = this.countries
         },
-        data () {
+        methods: {},
+        data() {
             this.chartSettings = {
                 xAxisList: [],
                 yAxisList: []
-            }
-        //     return {
-        //         chartData: {
-        //             columns: ['week', 'location', 'person'],
-        //             rows: [
-        //                 { 'week': 'Monday', 'location': 'Beijing', 'person': 1000 },
-        //                 { 'week': 'Tuesday', 'location': 'Shanghai', 'person': 400 },
-        //                 { 'week': 'Wednesday', 'location': 'Hangzhou', 'person': 800 },
-        //                 { 'week': 'Tuesday', 'location': 'Shenzhen', 'person': 200 },
-        //                 { 'week': 'Wednesday', 'location': 'Changhcun', 'person': 100 },
-        //                 { 'week': 'Friday', 'location': 'Nanjing', 'person': 300 },
-        //                 { 'week': 'Thursday', 'location': 'Jiangsu', 'person': 800 },
-        //                 { 'week': 'Wednesday', 'location': 'Beijing', 'person': 700 },
-        //                 { 'week': 'Wednesday', 'location': 'Shanghai', 'person': 300 },
-        //                 { 'week': 'Tuesday', 'location': 'Hangzhou', 'person': 500 }
-        //             ]
-        //         }
-        //     }
+            },
+                this.chartEvents = {
+                    click: (e) => {
+                        self.name = e.name
+                        console.log(e, name, self.name)
+                        this.$store.dispatch('updateCurrent', name)
+                    }
+                }
+            //     return {
+            //         chartData: {
+            //             columns: ['week', 'location', 'person'],
+            //             rows: [
+            //                 { 'week': 'Monday', 'location': 'Beijing', 'person': 1000 },
+            //                 { 'week': 'Tuesday', 'location': 'Shanghai', 'person': 400 },
+            //                 { 'week': 'Wednesday', 'location': 'Hangzhou', 'person': 800 },
+            //                 { 'week': 'Tuesday', 'location': 'Shenzhen', 'person': 200 },
+            //                 { 'week': 'Wednesday', 'location': 'Changhcun', 'person': 100 },
+            //                 { 'week': 'Friday', 'location': 'Nanjing', 'person': 300 },
+            //                 { 'week': 'Thursday', 'location': 'Jiangsu', 'person': 800 },
+            //                 { 'week': 'Wednesday', 'location': 'Beijing', 'person': 700 },
+            //                 { 'week': 'Wednesday', 'location': 'Shanghai', 'person': 300 },
+            //                 { 'week': 'Tuesday', 'location': 'Hangzhou', 'person': 500 }
+            //             ]
+            //         }
+            //     }
         }
     }
 

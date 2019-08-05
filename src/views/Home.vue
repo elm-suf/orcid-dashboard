@@ -11,7 +11,7 @@
         {{selected}}
         {{selectedCountry}}
         <HeatMap></HeatMap >
-        <BarChart v-if="selected"/>
+        <BarChart v-if="selectedCountry"/>
     </div>
 </template>
 
@@ -37,20 +37,21 @@
         },
         beforeCreate() {
             this.$store.dispatch('fetchCountries')
+            this.$store.dispatch('fetchMigrations')
         },
         computed: {
             ...mapState([
-                'countries'
+
             ]),
             ...mapGetters([
-                'selectedCountry'
+                'selectedCountry',
+                'countries'
             ])
         },
         methods: {
             changed() {
                 console.log('Change', this.selected)
                 this.$store.dispatch('updateCurrent', this.selected)
-                this.$store.dispatch('fetchInAndOutFromC1')
             }
         },
         created() {
