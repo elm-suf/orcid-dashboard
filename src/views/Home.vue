@@ -3,6 +3,10 @@
 
 
         <v-layout wrap justify-center>
+
+            <v-flex xs12>
+                <HeatMap></HeatMap>
+            </v-flex>
             <v-flex xs6 md4>
                 <v-combobox
                         v-model="selected"
@@ -10,9 +14,6 @@
                         :items="countries"
                         label="Select a favorite activity or create a new one"
                 ></v-combobox>
-            </v-flex>
-            <v-flex xs12>
-                <HeatMap></HeatMap>
             </v-flex>
             <v-flex xs12>
                 <BarChart v-if="selectedCountry"/>
@@ -44,6 +45,7 @@
         beforeCreate() {
             this.$store.dispatch('fetchCountries')
             this.$store.dispatch('fetchMigrations')
+            this.$store.dispatch('fetchGraph')
         },
         computed: {
             ...mapState([]),

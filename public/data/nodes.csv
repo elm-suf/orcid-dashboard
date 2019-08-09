@@ -1,0 +1,166 @@
+Id,Label,Latitude,Longitude,Continent
+AE,United Arab Emirates,24,54,Asia
+AF,Afghanistan,33,65,Asia
+AL,Albania,41,20,Europe
+AM,Armenia,40,45,Asia
+AO,Angola,-12.5,18.5,Africa
+AR,Argentina,-34,-64,South America
+AT,Austria,47.33,13.33,Europe
+AU,Australia,-27,133,Oceania
+AZ,Azerbaijan,40.5,47.5,Asia
+BA,Bosnia and Herzegovina,44,18,Europe
+BB,Barbados,13.17,-59.53,North America
+BD,Bangladesh,24,90,Asia
+BE,Belgium,50.83,4,Europe
+BF,Burkina Faso,13,-2,Africa
+BG,Bulgaria,43,25,Europe
+BH,Bahrain,26,50.55,Asia
+BJ,Benin,9.5,2.25,Africa
+BM,Bermuda,32.33,-64.75,North America
+BN,Brunei Darussalam,4.5,114.67,Asia
+BO,Bolivia,-17,-65,South America
+BR,Brazil,-10,-55,South America
+BS,Bahamas,24.25,-76,North America
+BT,Bhutan,27.5,90.5,Asia
+BW,Botswana,-22,24,Africa
+BY,Belarus,53,28,Europe
+CA,Canada,60,-95,North America
+CD,"Congo, The Democratic Republic of the",0,25,Africa
+CG,Congo,-1,15,Africa
+CH,Switzerland,47,8,Europe
+CI,Cote d'Ivoire,8,-5,Africa
+CL,Chile,-30,-71,South America
+CM,Cameroon,6,12,Africa
+CN,China,35,105,Asia
+CO,Colombia,4,-72,South America
+CR,Costa Rica,10,-84,North America
+CU,Cuba,21.5,-80,North America
+CV,Cape Verde,16,-24,Africa
+CY,Cyprus,35,33,Europe
+CZ,Czech Republic,49.75,15.5,Europe
+DE,Germany,51,9,Europe
+DK,Denmark,56,10,Europe
+DO,Dominican Republic,19,-70.67,North America
+DZ,Algeria,28,3,Africa
+EC,Ecuador,-2,-77.5,South America
+EE,Estonia,59,26,Europe
+EG,Egypt,27,30,Africa
+ES,Spain,40,-4,Europe
+ET,Ethiopia,8,38,Africa
+FI,Finland,64,26,Europe
+FJ,Fiji,-18,175,Oceania
+FO,Faroe Islands,62,-7,Europe
+FR,France,46,2,Europe
+GB,United Kingdom,54,-2,Europe
+GD,Grenada,12.12,-61.67,North America
+GE,Georgia,42,43.5,Asia
+GH,Ghana,8,-2,Africa
+GM,Gambia,13.47,-16.57,Africa
+GR,Greece,39,22,Europe
+GT,Guatemala,15.5,-90.25,North America
+GU,Guam,13.47,144.78,Oceania
+HK,Hong Kong,22.25,114.17,Asia
+HN,Honduras,15,-86.5,North America
+HR,Croatia,45.17,15.5,Europe
+HT,Haiti,19,-72.42,North America
+HU,Hungary,47,20,Europe
+ID,Indonesia,-5,120,Asia
+IE,Ireland,53,-8,Europe
+IL,Israel,31.5,34.75,Asia
+IN,India,20,77,Asia
+IQ,Iraq,33,44,Asia
+IR,"Iran, Islamic Republic of",32,53,Asia
+IS,Iceland,65,-18,Europe
+IT,Italy,42.83,12.83,Europe
+JM,Jamaica,18.25,-77.5,North America
+JO,Jordan,31,36,Asia
+JP,Japan,36,138,Asia
+KE,Kenya,1,38,Africa
+KG,Kyrgyzstan,41,75,Asia
+KH,Cambodia,13,105,Asia
+KN,Saint Kitts and Nevis,17.33,-62.75,North America
+KR,"Korea, Republic of",37,127.5,Asia
+KW,Kuwait,29.34,47.66,Asia
+KY,Cayman Islands,19.5,-80.5,North America
+KZ,Kazakhstan,48,68,Asia
+LB,Lebanon,33.83,35.83,Asia
+LK,Sri Lanka,7,81,Asia
+LR,Liberia,6.5,-9.5,Africa
+LS,Lesotho,-29.5,28.5,Africa
+LT,Lithuania,56,24,Europe
+LU,Luxembourg,49.75,6.17,Europe
+LV,Latvia,57,25,Europe
+LY,Libyan Arab Jamahiriya,25,17,Africa
+MA,Morocco,32,-5,Africa
+MC,Monaco,43.73,7.4,Europe
+MD,"Moldova, Republic of",47,29,Europe
+MG,Madagascar,-20,47,Africa
+MK,Macedonia,41.83,22,Europe
+ML,Mali,17,-4,Africa
+MM,Myanmar,22,98,Asia
+MN,Mongolia,46,105,Asia
+MO,Macao,22.17,113.55,Asia
+MT,Malta,35.83,14.58,Europe
+MU,Mauritius,-20.28,57.55,Africa
+MW,Malawi,-13.5,34,Africa
+MX,Mexico,23,-102,North America
+MY,Malaysia,2.5,112.5,Asia
+MZ,Mozambique,-18.25,35,Africa
+NE,Niger,16,8,Africa
+NG,Nigeria,10,8,Africa
+NI,Nicaragua,13,-85,North America
+NL,Netherlands,52.5,5.75,Europe
+NO,Norway,62,10,Europe
+NP,Nepal,28,84,Asia
+NZ,New Zealand,-41,174,Oceania
+OM,Oman,21,57,Asia
+PA,Panama,9,-80,North America
+PE,Peru,-10,-76,South America
+PG,Papua New Guinea,-6,147,Oceania
+PH,Philippines,13,122,Asia
+PK,Pakistan,30,70,Asia
+PL,Poland,52,20,Europe
+PR,Puerto Rico,18.25,-66.5,North America
+PS,Palestinian Territory,32,35.25,Asia
+PT,Portugal,39.5,-8,Europe
+PY,Paraguay,-23,-58,South America
+QA,Qatar,25.5,51.25,Asia
+RE,Reunion,-21.1,55.6,Africa
+RO,Romania,46,25,Europe
+RS,Serbia,44,21,Europe
+RU,Russian Federation,60,100,Europe
+RW,Rwanda,-2,30,Africa
+SA,Saudi Arabia,25,45,Asia
+SD,Sudan,15,30,Africa
+SE,Sweden,62,15,Europe
+SG,Singapore,1.37,103.8,Asia
+SI,Slovenia,46,15,Europe
+SJ,Svalbard and Jan Mayen,78,20,Europe
+SK,Slovakia,48.67,19.5,Europe
+SL,Sierra Leone,8.5,-11.5,Africa
+SN,Senegal,14,-14,Africa
+SO,Somalia,10,49,Africa
+SV,El Salvador,13.83,-88.92,North America
+SY,Syrian Arab Republic,35,38,Asia
+SZ,Swaziland,-26.5,31.5,Africa
+TG,Togo,8,1.17,Africa
+TH,Thailand,15,100,Asia
+TJ,Tajikistan,39,71,Asia
+TN,Tunisia,34,9,Africa
+TR,Turkey,39,35,Asia
+TT,Trinidad and Tobago,11,-61,North America
+TW,Taiwan,23.5,121,Asia
+TZ,"Tanzania, United Republic of",-6,35,Africa
+UA,Ukraine,49,32,Europe
+UG,Uganda,1,32,Africa
+US,United States,38,-97,North America
+UY,Uruguay,-33,-56,South America
+UZ,Uzbekistan,41,64,Asia
+VC,Saint Vincent and the Grenadines,13.25,-61.2,North America
+VE,Venezuela,8,-66,South America
+VI,"Virgin Islands, U.S.",18.33,-64.83,North America
+VN,Vietnam,16,106,Asia
+YE,Yemen,15,48,Asia
+ZA,South Africa,-29,24,Africa
+ZM,Zambia,-15,30,Africa
+ZW,Zimbabwe,-20,30,Africa

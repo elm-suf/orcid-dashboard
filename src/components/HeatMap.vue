@@ -1,5 +1,7 @@
 <template>
-    <ve-heatmap :events="chartEvents" :data="heatMapData" :settings="chartSettings"></ve-heatmap>
+    <v-flex xs12>
+        <ve-heatmap :events="chartEvents" :data="heatMapData" :settings="chartSettings"></ve-heatmap>
+    </v-flex>
 </template>
 
 

@@ -27,9 +27,21 @@ const queryMigrations = gql`
             value: out
         }
     }`;
+const queryGraph = gql`
+    {
+        nodes: all_migrations{
+            name: c1
+            value: all_in
+        }
+        links: migrations_in_out {
+            source: c1
+            target: c2
+        }
+    }`;
 
 export {
     inAndOutFromC1,
     queryAllCountries,
-    queryMigrations
+    queryMigrations,
+    queryGraph
 }
