@@ -1,7 +1,5 @@
 <template>
     <v-layout align-centerjustify-center>
-
-
         <v-layout wrap justify-center>
 
             <v-flex xs12>
@@ -43,9 +41,9 @@
             }
         },
         beforeCreate() {
-            this.$store.dispatch('fetchCountries')
-            this.$store.dispatch('fetchMigrations')
-            this.$store.dispatch('fetchGraph')
+            this.$store.dispatch('fetchCountries');
+            this.$store.dispatch('fetchMigrations');
+            this.$store.dispatch('fetchGraph');
         },
         computed: {
             ...mapState([]),

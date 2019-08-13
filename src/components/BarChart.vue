@@ -8,7 +8,6 @@
                 <ve-bar :data="chartData"></ve-bar>
             </v-flex>
         </v-layout>
-
     </v-container>
 </template>
 

@@ -13,7 +13,7 @@ const inAndOutFromC1 = gql`
     }`;
 const queryAllCountries = gql`
     {
-        countries: country {
+        countries: country(order_by: {iso2: asc}) {
             name
             code: iso2
             continent

@@ -15,7 +15,51 @@ export default new Vuex.Store({
         selectedCountry: ""
     },
     getters: {
+        // getMatrix: state => {
+        //     let mat = [];
+        //     state.countries.forEach((el, i) => {
+        //         mat[i] = {
+        //             'code': el.code,
+        //             len: state.migrations.filter(cc => cc.from === el.code).length,
+        //             count_0: state.migrations.filter(cc => cc.from === el.code).filter(x => x === 0).length,
+        //             values: state.migrations.filter(cc => cc.from === el.code)
+        //         }
+        //     });
+        //
+        //     mat = mat.filter(row => row.len > 5);
+        //     const countryList = mat.map(el => el.code);
+        //
+        //     var ret = Array(mat.length).fill(Array(mat.length).fill(0));
+        //     // //todo don't use state.countries.forEach || instead use a filtered list from the line above
+        //     mat.forEach((row, row_index) => {
+        //         countryList.forEach((country, index) => {
+        //                 let find = row.values.find(el => el.to === country);
+        //                 if (find != undefined)
+        //                     ret[row_index][index] = find.value
+        //             }
+        //         )
+        //     });
+        //     return {
+        //         names: countryList,
+        //         matrix: ret
+        //     }
+        //     // var ret = Array(state.countries.length).fill(Array(state.countries.length).fill(0));
+        //     // mat.filter(row => row.values.every(val => val === row[0]))
+        //     // //todo don't use state.countries.forEach || instead use a filtered list from the line above
+        //     // mat.forEach((row, row_index) => {
+        //     //     state.countries.forEach((country, index) => {
+        //     //             let find = row.values.find(el => el.to == country.code);
+        //     //             if (find != undefined)
+        //     //                 ret[row_index][index] = find.value
+        //     //         }
+        //     //     )
+        //     // });
+        //     // return mat.filter(row=> row.len>5)
+        // },
         migrations: state => {
+            return state.migrations
+        },
+        chordData: state => {
             return state.migrations
         },
         inAndOut:

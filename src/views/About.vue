@@ -1,15 +1,15 @@
 <template>
     <v-layout align-centerjustify-center>
-        <Graph/>
+        <Chord/>
     </v-layout>
 </template>
 <script>
-    import Graph from "../components/Graph";
+    import Chord from "@/components/Chord";
 
     export default {
         name: 'About',
         components: {
-            Graph
+            Chord
         }
     }
 </script>

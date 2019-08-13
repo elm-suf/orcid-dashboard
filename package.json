@@ -8,15 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@amcharts/amcharts4": "^4.5.14",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link": "^1.2.12",
     "apollo-link-http": "^1.5.15",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "d3": "^5.9.7",
     "echarts": "^4.2.1",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
+    "underscore": "^1.9.1",
     "v-charts": "^1.19.0",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-rc.2",
