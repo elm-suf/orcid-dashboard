@@ -7,10 +7,13 @@
             </v-flex>
             <v-flex xs6 md4>
                 <v-combobox
-                        v-model="selected"
+                        label="Select a Country"
                         @change="changed"
+                        v-model="selected"
+                        :item-value="(obj) => obj.code"
+                        :item-text="(obj) => obj.name"
                         :items="countries"
-                        label="Select a favorite activity or create a new one"
+                        return-object
                 ></v-combobox>
             </v-flex>
             <v-flex xs12>
@@ -54,8 +57,8 @@
         },
         methods: {
             changed() {
-                console.log('Change', this.selected)
-                this.$store.dispatch('updateCurrent', this.selected)
+                console.log('Change', this.selected.code)
+                this.$store.dispatch('updateCurrent', this.selected.code)
             }
         },
         created() {

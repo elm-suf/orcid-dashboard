@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 const inAndOutFromC1 = gql`
     query inAndOutFromC1($c1: String!){
-        migrations_in_out_aggregate(where: {c1: {_eq: $c1}}){
+        migrations_in_out_aggregate(order_by: {out: desc}, where: {c1: {_eq: $c1}}){
             nodes {
                 c1
                 c2
@@ -38,10 +38,21 @@ const queryGraph = gql`
             target: c2
         }
     }`;
+const querySeries = gql`{
+    years: series(distinct_on: year, order_by: {year: asc}) {
+        year
+    }
+    series(order_by: {year: asc} ) {
+        country
+        value
+        year
+    }
+}`;
 
 export {
     inAndOutFromC1,
     queryAllCountries,
     queryMigrations,
-    queryGraph
+    queryGraph,
+    querySeries
 }

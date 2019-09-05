@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {apolloClient} from './apollo'
-import {inAndOutFromC1, queryMigrations, queryAllCountries, queryGraph} from './apollo/queries'
+import {inAndOutFromC1, queryMigrations, queryAllCountries, queryGraph, querySeries} from './apollo/queries'
 
 Vue.use(Vuex)
 
@@ -12,6 +12,10 @@ export default new Vuex.Store({
         countries: [],
         migrations: [],
         graphData: [],
+        series: {
+            years: [],
+            series: []
+        },
         selectedCountry: ""
     },
     getters: {
@@ -56,6 +60,17 @@ export default new Vuex.Store({
         //     // });
         //     // return mat.filter(row=> row.len>5)
         // },
+        series: state => {
+            let tmp = {}
+            state.series.years.forEach(el => tmp[el.year] = [])
+
+            state.series.series.forEach(el => tmp[el.year].push({country: el.country, value: el.value}))
+
+            return tmp
+        },
+        years: state => {
+            return state.series.years.map(el => el.year)
+        },
         migrations: state => {
             return state.migrations
         },
@@ -68,7 +83,7 @@ export default new Vuex.Store({
             },
         countries:
             state => {
-                return state.countries.map(el => el.code)
+                return state.countries//.map(el => el.name)
             },
         selectedCountry:
             state => {
@@ -98,6 +113,9 @@ export default new Vuex.Store({
     }
     ,
     mutations: {
+        FETCH_SERIES(state, data) {
+            state.series = data
+        },
         FETCH_GRAPH(state, graphData) {
             state.graphData = graphData
         }
@@ -143,6 +161,10 @@ export default new Vuex.Store({
         async fetchGraph({commit}) {
             const {data} = await apolloClient.query({query: queryGraph})
             commit('FETCH_GRAPH', data)
+        },
+        async fetchSeries({commit}) {
+            const {data} = await apolloClient.query({query: querySeries})
+            commit('FETCH_SERIES', data)
         }
 
     }

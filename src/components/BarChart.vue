@@ -5,7 +5,7 @@
                 wrap
         >
             <v-flex xs12>
-                <ve-bar :data="chartData"></ve-bar>
+                <ve-histogram :data="chartData"></ve-histogram>
             </v-flex>
         </v-layout>
     </v-container>
