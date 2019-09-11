@@ -19,6 +19,7 @@
     "echarts": "^4.2.1",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
+    "topojson": "^3.0.2",
     "underscore": "^1.9.1",
     "v-charts": "^1.19.0",
     "vue": "^2.6.10",

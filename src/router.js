@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import RaceChart from './components/RaceChart'
+import MapComponent from "./components/MapComponent";
 
 Vue.use(Router)
 
@@ -15,6 +16,10 @@ export default new Router({
             path: '/race',
             name: 'race',
             component: RaceChart
+        }, {
+            path: '/map',
+            name: 'map',
+            component: MapComponent
         },
         {
             path: '/about',

@@ -12,17 +12,27 @@
                 </v-list-item>
                 <v-list-item to="about">
                     <v-list-item-action>
-                        <v-icon>contact_mail</v-icon>
+                        <v-icon>bubble_chart</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
-                            About
+                            Chord
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="map">
+                    <v-list-item-action>
+                        <v-icon>map</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            MapComponent
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item to="race">
                     <v-list-item-action>
-                        <v-icon>contact_mail</v-icon>
+                        <v-icon>bar_chart</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
