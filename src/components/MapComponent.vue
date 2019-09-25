@@ -4,9 +4,14 @@
                 text-center
                 wrap
         >
+            <v-row class="my-0">
+                    <div v-for="(item, key) in projections" :key="key" class="my-2 col">
+                        <v-btn @click="selected(item)">{{key}}</v-btn>
+                    </div>
+            </v-row>
             <v-flex xs12>
                 <!-- <input type="select"> -->
-                <button v-for="(item, key) in projections" :key="key" @click="selected(item)">{{key}}</button>
+
 
                 <svg id="map"
                      viewBox="0 0 960 500 "
@@ -23,7 +28,7 @@
                                 :d="generator(count)"
                                 @click="countryClicked(count)"
                         >
-                            <title>{{detailInfo[count.id]}}</title>
+                            <title>{{getNameByNumeric(count.id)}}</title>
                         </path>
                     </g>
                 </svg>
@@ -34,7 +39,13 @@
 
 <script>
     import {select, selectAll, tsv, json, geoPath, geoMercator} from "d3";
-    import * as d3 from 'd3';
+    import {
+        codes,
+        byAlpha2,
+        byAlpha3,
+        byNumeric,
+    } from 'iso-country-codes';
+
     import {
         geoAzimuthalEqualArea,
         geoNaturalEarth1,
@@ -44,16 +55,6 @@
 
     export default {
         name: "Map",
-        // props: {
-        //   width: {
-        //     type: Number,
-        //     default: 720
-        //   },
-        //   height: {
-        //     type: Number,
-        //     default: 460
-        //   }
-        // },
         data() {
             return {
                 projection: geoNaturalEarth1(),
@@ -72,13 +73,6 @@
         mounted() {
             // const { width } = this.$el.getBoundingClientRect();
 
-            console.log("created", select('#svg'));
-            const zoom = d3.zoom()
-                .scaleExtent([1, 40])
-                .translateExtent([[0, 0], [this.width, this.height]])
-                .extent([[0, 0], [this.width, this.height]])
-                .on("zoom", this.zoomed);
-
             tsv("https://unpkg.com/world-atlas@1.1.4/world/110m.tsv").then(res => {
                 res.forEach(el => {
                     this.detailInfo[el.iso_n3] = el.name;
@@ -87,7 +81,6 @@
 
             json("https://unpkg.com/world-atlas@1.1.4/world/110m.json").then(data => {
                 this.countries = feature(data, data.objects.countries);
-                select("#svg").call(zoom)
             });
 
 
@@ -103,15 +96,16 @@
             }
         },
         methods: {
+            getNameByNumeric(id){
+                console.log(byNumeric[id]);
+                return byNumeric[id]
+            },
             countryClicked(count) {
                 console.log("count", count);
             },
             selected(item) {
                 console.log("SELECTED", item);
                 this.projection = item;
-            },
-            zoomed() {
-                console.log('zooom')
             }
         }
     };

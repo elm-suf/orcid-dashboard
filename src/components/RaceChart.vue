@@ -1,8 +1,6 @@
 <template>
     <v-container>
-        <v-card
-                class="mx-auto"
-        >
+        <v-card class="mx-auto">
             <v-toolbar flat dense>
                 <v-toolbar-title>
                     <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
@@ -11,18 +9,14 @@
             </v-toolbar>
 
             <v-card-text>
-                <v-row
-                        class="mb-4"
-                        justify="space-between"
-                >
-
+                <v-row class="mb-4" justify="space-between">
+                    <v-col class="col-10 text-left">
+                        <v-range-slider
+                                v-model="range"
+                        ></v-range-slider>
+                    </v-col>
                     <v-col class="text-right">
-                        <v-btn
-                                dark
-                                depressed
-                                fab
-                                @click="toggle"
-                        >
+                        <v-btn dark depressed fab @click="toggle">
                             <v-icon large>
                                 {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
                             </v-icon>
@@ -32,22 +26,16 @@
             </v-card-text>
         </v-card>
 
-
         <v-layout text-center wrap>
             <v-flex xs12>
                 <ve-histogram :data="chartData"></ve-histogram>
             </v-flex>
-            <v-range-slider
-                    v-model="range"
-            ></v-range-slider>
         </v-layout>
     </v-container>
 </template>
 
 <script>
-
     import {mapGetters} from "vuex";
-
     export default {
         name: 'RaceChart',
         data() {

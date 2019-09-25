@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import RaceChart from './components/RaceChart'
 import MapComponent from "./components/MapComponent";
+import SigmaComponent from "./components/SigmaComponent";
+import Choropleth from "./components/Choropleth";
 
 Vue.use(Router)
 
@@ -16,6 +18,14 @@ export default new Router({
             path: '/race',
             name: 'race',
             component: RaceChart
+        }, {
+            path: '/choroplet',
+            name: 'choroplet',
+            component: Choropleth
+        }, {
+            path: '/sigma',
+            name: 'sigma',
+            component: SigmaComponent
         }, {
             path: '/map',
             name: 'map',
