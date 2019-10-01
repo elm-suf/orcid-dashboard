@@ -92,8 +92,14 @@ export default new Vuex.Store({
         chartData:
             state => {
                 return {
-                    columns: ["c2", "in", "out"],
-                    rows: state.inAndOut
+                    columns: ["c2", "out", "in"],
+                    rows: state.inAndOut.map(el => {
+                        return {
+                            c2: el.c2,
+                            out: -el.out,
+                            in: el.in
+                        }
+                    })
                 }
             },
         heatMapData:

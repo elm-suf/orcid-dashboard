@@ -1,46 +1,51 @@
+<!--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
+<template>
+    <v-card class="mx-auto">
 
-        <!--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-        <template>
-            <v-card class="mx-auto" >
-                <svg id="map"
-                     viewBox="0 0 960 500 "
-                     class="binded"
-                     :width="width"
-                     :height="height">
-                    <g class="group">
-                        <path :d="generatePath" class="sphere"></path>
-                        <path
-                                class="land"
-                                v-for="(count , index) in features.features"
-                                :key="index"
-                                :d="generator(count)"
-                                :fill="colorScale(getValue(count.id))"
-                                @click="countryClicked(count)"
-                        >
-                            <title>{{getNameByNumeric(count.id)}}</title>
-                        </path>
-                    </g>
-                </svg>
-                <v-card-text>
-                    <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
-                </v-card-text>
-
-                <v-card-actions class="mr-2 mb-2">
-                    <v-row align="center" justify="end">
-                        <v-btn
-                                dark
-                                depressed
-                                fab
-                                @click="toggle"
-                        >
-                            <v-icon large>
-                                {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
-                            </v-icon>
-                        </v-btn>
-                    </v-row>
-                </v-card-actions>
-            </v-card>
-        </template>
+        <ve-line :data="lineData"></ve-line>
+        <v-layout
+                text-center
+                wrap
+        >
+            <svg id="map"
+                 viewBox="0 0 960 500 "
+                 class="binded"
+                 :width="width"
+                 :height="height">
+                <g class="group">
+                    <path :d="generatePath" class="sphere"></path>
+                    <path
+                            class="land"
+                            v-for="(count , index) in features.features"
+                            :key="index"
+                            :d="generator(count)"
+                            :fill="colorScale(getValue(count.id))"
+                            @click="countryClicked(count)"
+                    >
+                        <title>{{getNameByNumeric(count.id)}}</title>
+                    </path>
+                </g>
+            </svg>
+        </v-layout>
+        <v-card-text>
+            <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
+        </v-card-text>
+        <v-card-actions class="mr-2 mb-2">
+            <v-row align="center" justify="end">
+                <v-btn
+                        dark
+                        depressed
+                        fab
+                        @click="toggle"
+                >
+                    <v-icon large>
+                        {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
+                    </v-icon>
+                </v-btn>
+            </v-row>
+        </v-card-actions>
+    </v-card>
+</template>
 
 
 <script>
@@ -59,49 +64,72 @@
         name: 'choropleth',
         data() {
             return {
-                minValue: 0,
-                maxValue: 0,
-                projection: geoMercator(),
-                chartData: {
-                    columns: ["country", "value"],
+                lineData: {
+                    columns: ['year', 'migrations'],
                     rows: []
                 },
-                features: {},
-                detailInfo: {},
+                minValue: 0,
+                maxValue:
+                    0,
+                projection:
+                    geoMercator(),
+                chartData:
+                    {
+                        columns: ["country", "value"],
+                        rows:
+                            []
+                    }
+                ,
+                features: {}
+                ,
+                detailInfo: {}
+                ,
                 curr: [],
-                curr_year: 0,
-                range: [0, 22000],
-                isPlaying: false,
-                width: 960,
-                height: 500
+                curr_year:
+                    0,
+                range:
+                    [0, 22000],
+                isPlaying:
+                    false,
+                width:
+                    960,
+                height:
+                    500
             }
-        },
+        }
+        ,
         beforeCreate() {
             this.$store.dispatch('fetchSeries')
             // console.log(cc);
-        },
+        }
+        ,
         computed: {
-            ...mapGetters([
-                'series',
-                'years',
-                "countries"
-            ]),
+            ...
+                mapGetters([
+                    'series',
+                    'years',
+                    "countries"
+                ]),
             colorScale() {
                 return scalePow()
                     .exponent(0.5)
                     .domain([this.minValue, this.maxValue])
                     .range(['white', 'blue']);
-            },
+            }
+            ,
             generator() {
                 return geoPath().projection(this.projection);
-            },
+            }
+            ,
             generatePath() {
                 return this.generator({type: "Sphere"});
             }
-        },
+        }
+        ,
         created() {
 
-        },
+        }
+        ,
         mounted() {
             // tsv("https://unpkg.com/world-atlas@1.1.4/world/110m.tsv").then(res => {
             //     console.log(res);
@@ -113,12 +141,14 @@
             json("https://unpkg.com/world-atlas@1.1.4/world/110m.json").then(data => {
                 this.features = feature(data, data.objects.countries);
             });
-        },
+        }
+        ,
         methods: {
-            getNameByNumeric(id){
-                console.log(byNumeric[id]);
+            getNameByNumeric(id) {
+                // console.log(byNumeric[id]);
                 return byNumeric[id]
-            },
+            }
+            ,
             getValue(id) {
                 let byNumericElement = byNumeric[id];
                 if (byNumericElement !== undefined) {
@@ -127,7 +157,8 @@
                         return tmp[0].value;
                 }
                 return 0;
-            },
+            }
+            ,
             merge(arr1, arr2) {
                 // Merge the arrays, and set up an output array.
                 const merged = [...arr1, ...arr2];
@@ -156,12 +187,22 @@
                 }
 
                 return out;
-            },
+            }
+            ,
             race() {
                 console.log('race', this.isPlaying);
                 let i = this.years.shift();
                 this.curr_year = i;
                 console.log('mounted', this.series[i]);
+
+                let sum = 0;
+                this.series[i].forEach(el => sum += el.value);
+                console.log('sum', this.series[i], sum);
+                //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                this.lineData.rows.push({'migrations': sum, 'year': i.toString()});
+
+
+
 
 
                 let tmp = this.merge(this.series[i], this.curr)
@@ -175,17 +216,19 @@
                     else
                         setTimeout(this.race(), 500);
                 })
-            },
+            }
+            ,
             toggle() {
                 this.isPlaying = !this.isPlaying;
                 console.log(this.isPlaying);
                 setTimeout(this.race(), 500);
             }
         }
-    };
+    }
+    ;
 </script>
-        <style>
-            .land:hover{
-                fill: crimson;
-            }
-        </style>
+<style>
+    .land:hover {
+        fill: crimson;
+    }
+</style>
