@@ -49,10 +49,24 @@ const querySeries = gql`{
     }
 }`;
 
+const queryLines = gql`{
+    years: series(distinct_on: year) {
+        year
+    }
+    series(where: {country: {_in: ["US", "IT", "GB", "SP", "FR", "CH"]}}
+        order_by: {year: asc}) {
+        country
+        value
+        year
+    }
+}`;
+
+
 export {
     inAndOutFromC1,
     queryAllCountries,
     queryMigrations,
     queryGraph,
-    querySeries
+    querySeries,
+    queryLines
 }

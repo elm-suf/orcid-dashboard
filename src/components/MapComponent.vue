@@ -10,9 +10,6 @@
                     </div>
             </v-row>
             <v-flex xs12>
-                <!-- <input type="select"> -->
-
-
                 <svg id="map"
                      viewBox="0 0 960 500 "
                      class="binded"

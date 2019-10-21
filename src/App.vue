@@ -20,6 +20,16 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item to="line">
+                    <v-list-item-action>
+                        <v-icon>bubble_chart</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Line
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item to="map">
                     <v-list-item-action>
                         <v-icon>map</v-icon>

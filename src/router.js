@@ -5,6 +5,7 @@ import RaceChart from './components/RaceChart'
 import MapComponent from "./components/MapComponent";
 import SigmaComponent from "./components/SigmaComponent";
 import Choropleth from "./components/Choropleth";
+import LineChart from "./components/LineChart";
 
 Vue.use(Router)
 
@@ -30,6 +31,10 @@ export default new Router({
             path: '/map',
             name: 'map',
             component: MapComponent
+        }, {
+            path: '/line',
+            name: 'lineChart',
+            component: LineChart
         },
         {
             path: '/about',
