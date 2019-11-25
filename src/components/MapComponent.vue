@@ -1,36 +1,25 @@
 <template>
     <v-container>
-        <v-layout
-                text-center
-                wrap
-        >
-            <v-row class="my-0">
-                    <div v-for="(item, key) in projections" :key="key" class="my-2 col">
-                        <v-btn @click="selected(item)">{{key}}</v-btn>
-                    </div>
-            </v-row>
-            <v-flex xs12>
-                <svg id="map"
-                     viewBox="0 0 960 500 "
-                     class="binded"
-                     :width="width"
-                     :height="height"
-                >
-                    <g class="group">
-                        <path :d="generatePath" class="sphere"></path>
-                        <path
-                                class="land"
-                                v-for="(count , index) in countries.features"
-                                :key="index"
-                                :d="generator(count)"
-                                @click="countryClicked(count)"
-                        >
-                            <title>{{getNameByNumeric(count.id)}}</title>
-                        </path>
-                    </g>
-                </svg>
-            </v-flex>
-        </v-layout>
+        <v-flex xs12>
+            <svg id="map"
+                 viewBox="0 0 960 500 "
+                 class="binded"
+                 :width="width"
+                 :height="height">
+                <g class="group">
+                    <path :d="generatePath" class="sphere"></path>
+                    <path
+                            class="land"
+                            v-for="(count , index) in countries.features"
+                            :key="index"
+                            :d="generator(count)"
+                            @click="countryClicked(count)"
+                    >
+                        <title>{{getNameByNumeric(count.id)}}</title>
+                    </path>
+                </g>
+            </svg>
+        </v-flex>
     </v-container>
 </template>
 
@@ -51,7 +40,7 @@
     import {feature} from "topojson";
 
     export default {
-        name: "Map",
+        name: "MapComponent",
         data() {
             return {
                 projection: geoNaturalEarth1(),
@@ -64,7 +53,7 @@
                 countries: {},
                 detailInfo: {},
                 width: 960,
-                height: 500
+                height: 360
             };
         },
         mounted() {
@@ -93,7 +82,7 @@
             }
         },
         methods: {
-            getNameByNumeric(id){
+            getNameByNumeric(id) {
                 console.log(byNumeric[id]);
                 return byNumeric[id]
             },

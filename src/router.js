@@ -6,6 +6,7 @@ import MapComponent from "./components/MapComponent";
 import SigmaComponent from "./components/SigmaComponent";
 import Choropleth from "./components/Choropleth";
 import LineChart from "./components/LineChart";
+import Dashboard from "./views/Dashboard";
 
 Vue.use(Router)
 
@@ -35,6 +36,10 @@ export default new Router({
             path: '/line',
             name: 'lineChart',
             component: LineChart
+        },{
+            path: '/dashboard',
+            name: 'dashboard',
+            component: Dashboard
         },
         {
             path: '/about',

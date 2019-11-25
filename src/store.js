@@ -2,15 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {apolloClient} from './apollo'
 import {inAndOutFromC1, queryMigrations, queryAllCountries, queryGraph, querySeries, queryLines} from './apollo/queries'
+import {setAttribute} from "echarts/src/util/model";
 
 Vue.use(Vuex)
 
 
 export default new Vuex.Store({
     state: {
-        lineData: {
+        lineSeries: {
             years: [],
-            seies: []
+            series: []
         },
         inAndOut: [],
         countries: [],
@@ -72,16 +73,15 @@ export default new Vuex.Store({
 
             return tmp
         },
-        lineData: state => {
+        fetchLineSeries: state => {
             let tmp = {}
-            state.series.years.forEach(el => tmp[el.year] = []);
-
-            state.series.series.forEach(el => tmp[el.year].push({country: el.country, value: el.value}))
+            state.lineSeries.years.forEach(el => tmp[el.year] = []);
+            state.lineSeries.series.forEach(el => tmp[el.year].push({country: el.country, value: el.value}))
 
             return tmp
         },
         years: state => {
-            return state.series.years.map(el => el.year)
+            return state.lineSeries.years.map(el => el.year)
         },
         migrations: state => {
             return state.migrations
@@ -135,7 +135,8 @@ export default new Vuex.Store({
             state.series = data
         },
         FETCH_LINES(state, data) {
-            state.lineData = data
+            console.log(data);
+            state.lineSeries = data
         },
         FETCH_GRAPH(state, graphData) {
             state.graphData = graphData
@@ -187,7 +188,7 @@ export default new Vuex.Store({
             const {data} = await apolloClient.query({query: querySeries})
             commit('FETCH_SERIES', data)
         },
-        async fetchLines({commit}) {
+        async fetchLineSeries({commit}) {
             const {data} = await apolloClient.query({query: queryLines})
             commit('FETCH_LINES', data)
         }

@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.5.14",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/vue-fontawesome": "^0.1.7",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link": "^1.2.12",

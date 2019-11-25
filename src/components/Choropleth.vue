@@ -1,50 +1,68 @@
 <!--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
 <template>
-    <v-card class="mx-auto">
+    <v-card dark class="mx-auto">
 
-        <ve-line :data="lineData"></ve-line>
-        <v-layout
-                text-center
-                wrap
-        >
-            <svg id="map"
-                 viewBox="0 0 960 500 "
-                 class="binded"
-                 :width="width"
-                 :height="height">
-                <g class="group">
-                    <path :d="generatePath" class="sphere"></path>
-                    <path
-                            class="land"
-                            v-for="(count , index) in features.features"
-                            :key="index"
-                            :d="generator(count)"
-                            :fill="colorScale(getValue(count.id))"
-                            @click="countryClicked(count)"
-                    >
-                        <title>{{getNameByNumeric(count.id)}}</title>
-                    </path>
-                </g>
-            </svg>
-        </v-layout>
-        <v-card-text>
-            <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
-        </v-card-text>
-        <v-card-actions class="mr-2 mb-2">
-            <v-row align="center" justify="end">
-                <v-btn
-                        dark
-                        depressed
-                        fab
-                        @click="toggle"
-                >
+        <v-card-actions class="mt-2  justify-center">
+            <v-col class="col-9">
+                <v-combobox
+                        label="Select countries to compare"
+                        v-model="selectedCountries"
+                        :items="countries"
+                        chips
+                        item-text="name"
+                        item-value="string"
+                        clearable multiple hide-selected light solo>
+                    <template v-slot:selection="{ attrs, item, select, selected }">
+                        <v-chip v-bind="attrs" :input-value="selected" close @click="select"
+                                @click:close="remove(item)">
+                            <strong>{{ item.code }} </strong>&nbsp;
+                        </v-chip>
+                    </template>
+                </v-combobox>
+
+            </v-col>
+            <v-col class="col-2">
+                <v-btn class="ml-10" dark depressed fab @click="toggle">
                     <v-icon large>
                         {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
                     </v-icon>
                 </v-btn>
-            </v-row>
+            </v-col>
         </v-card-actions>
+
+        <v-card-text>
+
+            <v-row>
+                <v-card light>
+                        <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
+                    <v-layout text-center wrap>
+                        <svg id="map"
+                             viewBox="0 0 960 500 "
+                             class="binded"
+                             :width="width"
+                             :height="height">
+                            <g class="group">
+                                <path :d="generatePath" class="sphere"></path>
+                                <path
+                                        class="land"
+                                        v-for="(count , index) in features.features"
+                                        :key="index"
+                                        :d="generator(count)"
+                                        :fill="colorScale(getValue(count.id))"
+                                        @click="countryClicked(count)"
+                                >
+                                    <title>{{getNameByNumeric(count.id)}}</title>
+                                </path>
+                            </g>
+                        </svg>
+                    </v-layout>
+                    <ve-line :data="lineData"></ve-line>
+                </v-card>
+            </v-row>
+        </v-card-text>
+
     </v-card>
+
 </template>
 
 
@@ -62,45 +80,44 @@
 
     export default {
         name: 'choropleth',
+        components: {},
         data() {
             return {
+                countriesObj: {},
+                chips: [],
+                selectedCountries: [],
                 lineData: {
                     columns: ['year', 'migrations'],
                     rows: []
                 },
                 minValue: 0,
-                maxValue:
-                    0,
-                projection:
-                    geoMercator(),
+                maxValue: 0,
+                projection: geoMercator(),
                 chartData:
                     {
                         columns: ["country", "value"],
                         rows:
                             []
-                    }
-                ,
-                features: {}
-                ,
-                detailInfo: {}
-                ,
+                    },
+                features: {},
+                detailInfo: {},
                 curr: [],
-                curr_year:
-                    0,
-                range:
-                    [0, 22000],
-                isPlaying:
-                    false,
-                width:
-                    960,
-                height:
-                    500
+                curr_year: 0,
+                range: [0, 22000],
+                isPlaying: false,
+                width: 960,
+                height: 480
             }
         }
         ,
         beforeCreate() {
             this.$store.dispatch('fetchSeries')
-            // console.log(cc);
+            this.$store.dispatch('fetchCountries').then(()=>{
+                console.log('createds')
+                this.countries.forEach(el => console.log(el))
+                this.countries.forEach(el => this.countriesObj[el.code] = el)
+                console.log('createds')
+            })
         }
         ,
         computed: {
@@ -108,7 +125,7 @@
                 mapGetters([
                     'series',
                     'years',
-                    "countries"
+                    'countries'
                 ]),
             colorScale() {
                 return scalePow()
@@ -131,6 +148,7 @@
         }
         ,
         mounted() {
+
             // tsv("https://unpkg.com/world-atlas@1.1.4/world/110m.tsv").then(res => {
             //     console.log(res);
             //     res.forEach(el => {
@@ -144,11 +162,16 @@
         }
         ,
         methods: {
+            countryClicked(country) {
+                let code = this.getNameByNumeric(country.id).alpha2;
+                console.log(code)
+                if (!this.selectedCountries.includes(this.countriesObj[code]))
+                    this.selectedCountries.push(this.countriesObj[code])
+            },
             getNameByNumeric(id) {
                 // console.log(byNumeric[id]);
                 return byNumeric[id]
-            }
-            ,
+            },
             getValue(id) {
                 let byNumericElement = byNumeric[id];
                 if (byNumericElement !== undefined) {
@@ -196,13 +219,11 @@
                 console.log('mounted', this.series[i]);
 
                 let sum = 0;
-                this.series[i].forEach(el => sum += el.value);
-                console.log('sum', this.series[i], sum);
+                if (this.series[i] !== undefined)
+                    this.series[i].forEach(el => sum += el.value);
+                    console.log('sum', this.series[i], sum);
                 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                 this.lineData.rows.push({'migrations': sum, 'year': i.toString()});
-
-
-
 
 
                 let tmp = this.merge(this.series[i], this.curr)
