@@ -1,24 +1,28 @@
 <template>
-    <v-layout align-centerjustify-center>
+    <v-layout align-centerjustify-center style="overflow-y: scroll">
         <v-layout wrap justify-center>
 
+            <!--                <HeatMap></HeatMap>-->
+
             <v-flex xs12>
-                <HeatMap></HeatMap>
+                <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
             </v-flex>
-            <v-flex xs6 md4>
-                <v-combobox
-                        label="Select a Country"
-                        @change="changed"
-                        v-model="selected"
-                        :item-value="(obj) => obj.code"
-                        :item-text="(obj) => obj.name"
-                        :items="countries"
-                        return-object
-                ></v-combobox>
-            </v-flex>
-            <v-flex xs12>
-                <BarChart v-if="selectedCountry"/>
-            </v-flex>
+
+
+            <!--            <v-flex xs6 md4>-->
+            <!--                <v-combobox-->
+            <!--                        label="Select a Country"-->
+            <!--                        @change="changed"-->
+            <!--                        v-model="selected"-->
+            <!--                        :item-value="(obj) => obj.code"-->
+            <!--                        :item-text="(obj) => obj.name"-->
+            <!--                        :items="countries"-->
+            <!--                        return-object-->
+            <!--                ></v-combobox>-->
+            <!--            </v-flex>-->
+            <!--            <v-flex xs12>-->
+            <!--                <BarChart v-if="selectedCountry"/>-->
+            <!--            </v-flex>-->
         </v-layout>
     </v-layout>
 </template>

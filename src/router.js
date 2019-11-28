@@ -7,6 +7,7 @@ import SigmaComponent from "./components/SigmaComponent";
 import Choropleth from "./components/Choropleth";
 import LineChart from "./components/LineChart";
 import Dashboard from "./views/Dashboard";
+import BarChart from "./components/BarChart";
 
 Vue.use(Router)
 
@@ -25,9 +26,9 @@ export default new Router({
             name: 'choroplet',
             component: Choropleth
         }, {
-            path: '/sigma',
-            name: 'sigma',
-            component: SigmaComponent
+            path: '/bar',
+            name: 'bar',
+            component: BarChart
         }, {
             path: '/map',
             name: 'map',

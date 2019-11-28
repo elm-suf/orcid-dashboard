@@ -1,6 +1,10 @@
 <template>
-    <v-container>
-        <v-flex xs12>
+<!--    <v-row align="start" justify="center" style="height: 100%; background: pink">-->
+        <!--        <v-col cols="12" style="height: 80%">-->
+        <!--        </v-col>-->
+        <!--        <v-col cols="12" style="height: 20%">-->
+        <!--            <combo></combo>-->
+        <v-col>
             <svg id="map"
                  viewBox="0 0 960 500 "
                  class="binded"
@@ -19,8 +23,8 @@
                     </path>
                 </g>
             </svg>
-        </v-flex>
-    </v-container>
+        </v-col>
+<!--    </v-row>-->
 </template>
 
 <script>
@@ -38,12 +42,14 @@
         geoTransverseMercator
     } from "d3-geo";
     import {feature} from "topojson";
+    import Combo from "../_components/ComparingComponent";
 
     export default {
         name: "MapComponent",
+        components: {Combo},
         data() {
             return {
-                projection: geoNaturalEarth1(),
+                projection: geoMercator(),
                 projections: {
                     geoMercator: geoMercator(),
                     geoAzimuthalEqualArea: geoAzimuthalEqualArea(),
@@ -57,8 +63,9 @@
             };
         },
         mounted() {
-            // const { width } = this.$el.getBoundingClientRect();
-
+            const {width, height} = this.$el.getBoundingClientRect();
+            this.width = width;
+            this.height = height;
             tsv("https://unpkg.com/world-atlas@1.1.4/world/110m.tsv").then(res => {
                 res.forEach(el => {
                     this.detailInfo[el.iso_n3] = el.name;

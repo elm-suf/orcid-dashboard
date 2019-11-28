@@ -12,42 +12,39 @@
         name: "HeatMap",
         computed: mapGetters([
             'heatMapData',
-            'countries'
+            // 'countries'
         ]),
         created() {
-            this.chartSettings.xAxisList = this.countries
-            this.chartSettings.yAxisList = this.countries
+            this.chartSettings.xAxisList = this.heatMapData.map(el => el.from)
+            this.chartSettings.yAxisList = this.heatMapData.map(el => el.to)
         },
         methods: {},
         data() {
             this.chartSettings = {
                 xAxisList: [],
-                yAxisList: []
-            },
-                this.chartEvents = {
-                    click: (e) => {
-                        self.name = e.name
-                        console.log(e, name, self.name)
-                        this.$store.dispatch('updateCurrent', name)
-                    }
+                yAxisList: [],
+                series: {
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
                 }
+            };
+            this.chartEvents = {
+                click: (e) => {
+                    self.name = e.name
+                    console.log(e, name, self.name)
+                    this.$store.dispatch('updateCurrent', name)
+                }
+            };
             //     return {
-            //         chartData: {
-            //             columns: ['week', 'location', 'person'],
-            //             rows: [
-            //                 { 'week': 'Monday', 'location': 'Beijing', 'person': 1000 },
-            //                 { 'week': 'Tuesday', 'location': 'Shanghai', 'person': 400 },
-            //                 { 'week': 'Wednesday', 'location': 'Hangzhou', 'person': 800 },
-            //                 { 'week': 'Tuesday', 'location': 'Shenzhen', 'person': 200 },
-            //                 { 'week': 'Wednesday', 'location': 'Changhcun', 'person': 100 },
-            //                 { 'week': 'Friday', 'location': 'Nanjing', 'person': 300 },
-            //                 { 'week': 'Thursday', 'location': 'Jiangsu', 'person': 800 },
-            //                 { 'week': 'Wednesday', 'location': 'Beijing', 'person': 700 },
-            //                 { 'week': 'Wednesday', 'location': 'Shanghai', 'person': 300 },
-            //                 { 'week': 'Tuesday', 'location': 'Hangzhou', 'person': 500 }
-            //             ]
-            //         }
-            //     }
         }
     }
 

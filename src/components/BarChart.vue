@@ -8,9 +8,9 @@
                 <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
             </v-flex>
 
-            <v-btn @click="changeSome('in')">IN</v-btn>
-            <v-btn @click="changeSome('out')">OUT</v-btn>
-            <p>{{chartSettings}}</p>
+<!--            <v-btn @click="changeSome('in')">IN</v-btn>-->
+<!--            <v-btn @click="changeSome('out')">OUT</v-btn>-->
+<!--            <p>{{chartSettings}}</p>-->
         </v-layout>
     </v-container>
 </template>

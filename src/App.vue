@@ -1,13 +1,32 @@
 <template>
     <v-app id="inspire">
+        <v-app-bar
+                app
+                collapse
+                dense
+
+                style="position:fixed; z-index: 100"
+        >
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+            <!--            <v-toolbar-title>Application</v-toolbar-title>-->
+        </v-app-bar>
         <v-navigation-drawer app v-model="drawer">
             <v-list dense>
+                <v-list-item></v-list-item>
                 <v-list-item to="/">
                     <v-list-item-action>
                         <v-icon>home</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>Home</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/bar">
+                    <v-list-item-action>
+                        <v-icon>bar</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Bar</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item to="about">
@@ -75,19 +94,10 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar
-                app
-                color="indigo"
-                dark
-                dense
-        >
-            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-            <!--            <v-toolbar-title>Application</v-toolbar-title>-->
-        </v-app-bar>
 
-        <v-content style="overflow: hidden ">
+        <div style="overflow: hidden; height: 100%">
             <router-view></router-view>
-        </v-content>
+        </div>
 
     </v-app>
 </template>
@@ -100,7 +110,7 @@
         },
 
         data: () => ({
-            drawer: null,
+            drawer: false,
         }),
     }
 </script>

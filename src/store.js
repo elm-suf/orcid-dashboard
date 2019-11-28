@@ -105,7 +105,7 @@ export default new Vuex.Store({
             state => {
                 return {
                     columns: ["c2", "out", "in"],
-                    rows: state.inAndOut.map(el => {
+                    rows: state.inAndOut.filter(el => el.out > 10 && el.in > 10).map(el => {
                         return {
                             c2: el.c2,
                             out: -el.out,
@@ -118,7 +118,7 @@ export default new Vuex.Store({
             state => {
                 return {
                     columns: ["from", "to", "value"],
-                    rows: state.migrations
+                    rows: state.migrations.filter(el => el.value > 250)
                 }
             },
         graphData:

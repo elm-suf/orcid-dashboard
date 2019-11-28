@@ -1,16 +1,14 @@
 <template>
-    <v-card class="mx-auto" width="960">
-        <v-layout text-center wrap>
-            <v-flex xs12>
-                <ve-line :legend-visible=false :data="lineData"></ve-line>
-            </v-flex>
-        </v-layout>
-        <v-card-text>
-            <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>
+    <v-card height="100%" supportingtext="true">
+
+        <v-card-text style="height: 84%;">
+            <ve-line :legend-visible=true :data="lineData"></ve-line>
+
+            <!--            <span class="subheading"><h2>Current Year : {{curr_year}}</h2></span>-->
         </v-card-text>
 
         <v-card-actions class="mr-2 mb-2">
-            <v-row align="center" justify="end">
+            <v-row align="end" justify="end">
                 <v-btn
                         dark
                         depressed
