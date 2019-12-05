@@ -27,6 +27,13 @@ const queryMigrations = gql`
             value: out
         }
     }`;
+const queryAllMigrations = gql`{
+    migrations: migrations_in_out(where: {out: {_gte: "50"}}){
+        from: c1
+        to: c2
+        value: out
+    }
+}`;
 const queryGraph = gql`
     {
         nodes: all_migrations{
@@ -68,5 +75,6 @@ export {
     queryMigrations,
     queryGraph,
     querySeries,
-    queryLines
+    queryLines,
+    queryAllMigrations
 }

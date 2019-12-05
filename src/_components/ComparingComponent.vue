@@ -1,19 +1,19 @@
 <template>
-    <v-combobox
-            label="Select countries to compare"
-            v-model="selectedCountries"
-            :items="countries"
-            chips
-            item-text="name"
-            item-value="string"
-            clearable multiple hide-selected light solo>
-        <template v-slot:selection="{ attrs, item, select, selected }">
-            <v-chip v-bind="attrs" :input-value="selected" close @click="select"
-                    @click:close="remove(item)">
-                <strong>{{ item.code }} </strong>&nbsp;
-            </v-chip>
-        </template>
-    </v-combobox>
+        <v-combobox
+                label="Select countries to compare"
+                v-model="selectedCountries"
+                :items="countries"
+                chips
+                item-text="name"
+                item-value="string"
+                clearable multiple hide-selected light solo>
+            <template v-slot:selection="{ attrs, item, select, selected }">
+                <v-chip v-bind="attrs" :input-value="selected" close @click="select"
+                        @click:close="remove(item)">
+                    <strong>{{ item.code }} </strong>&nbsp;
+                </v-chip>
+            </template>
+        </v-combobox>
 </template>
 
 <script>
@@ -41,7 +41,7 @@
                 mapGetters([
                     'countries',
                     {chips: 'selectedCountries'}
-                    ]),
+                ]),
         }
     }
 </script>

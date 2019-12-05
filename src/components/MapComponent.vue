@@ -1,30 +1,29 @@
 <template>
-<!--    <v-row align="start" justify="center" style="height: 100%; background: pink">-->
-        <!--        <v-col cols="12" style="height: 80%">-->
-        <!--        </v-col>-->
-        <!--        <v-col cols="12" style="height: 20%">-->
-        <!--            <combo></combo>-->
-        <v-col>
-            <svg id="map"
-                 viewBox="0 0 960 500 "
-                 class="binded"
-                 :width="width"
-                 :height="height">
-                <g class="group">
-                    <path :d="generatePath" class="sphere"></path>
-                    <path
-                            class="land"
-                            v-for="(count , index) in countries.features"
-                            :key="index"
-                            :d="generator(count)"
-                            @click="countryClicked(count)"
-                    >
-                        <title>{{getNameByNumeric(count.id)}}</title>
-                    </path>
-                </g>
-            </svg>
-        </v-col>
-<!--    </v-row>-->
+    <!--    <v-row align="start" justify="center" style="height: 100%; background: pink">-->
+    <!--        <v-col cols="12" style="height: 80%">-->
+    <!--        </v-col>-->
+    <!--        <v-col cols="12" style="height: 20%">-->
+    <!--            <combo></combo>-->
+    <svg id="map"
+         viewBox="0 0 960 510"
+         class="binded"
+         :width="width"
+         :height="height">
+        <g class="group">
+            <path :d="generatePath" class="sphere"></path>
+            <path
+                    class="land unselected"
+                    v-for="(count , index) in countries.features"
+                    :class="{selected : isSelected(getNameByNumeric(count.id))}"
+                    :key="index"
+                    :d="generator(count)"
+                    @click="countryClicked(count)"
+            >
+                <title>{{getNameByNumeric(count.id)}}</title>
+            </path>
+        </g>
+    </svg>
+    <!--    </v-row>-->
 </template>
 
 <script>
@@ -43,13 +42,14 @@
     } from "d3-geo";
     import {feature} from "topojson";
     import Combo from "../_components/ComparingComponent";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
         name: "MapComponent",
         components: {Combo},
         data() {
             return {
-                projection: geoMercator(),
+                projection: geoNaturalEarth1(),
                 projections: {
                     geoMercator: geoMercator(),
                     geoAzimuthalEqualArea: geoAzimuthalEqualArea(),
@@ -59,7 +59,7 @@
                 countries: {},
                 detailInfo: {},
                 width: 960,
-                height: 360
+                height: 300
             };
         },
         mounted() {
@@ -81,27 +81,37 @@
 
         watch: {},
         computed: {
+            ...mapState([
+                'selectedCountries'
+            ]),
             generator() {
                 return geoPath().projection(this.projection);
             },
             generatePath() {
                 return this.generator({type: "Sphere"});
-            }
+            },
+            isSelected(count) {
+                const item = byNumeric[count._uid]
+                console.log('item', item, count)
+                return this.selectedCountries.includes(item);
+            },
         },
         methods: {
             getNameByNumeric(id) {
-                console.log(byNumeric[id]);
                 return byNumeric[id]
             },
             countryClicked(count) {
                 console.log("count", count);
-            },
+                this.$store.dispatch('selectCountry', this.getNameByNumeric(count.id))
+            }
+            ,
             selected(item) {
                 console.log("SELECTED", item);
                 this.projection = item;
             }
         }
-    };
+    }
+    ;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -112,6 +122,10 @@
         width: 100%;
         vertical-align: middle;
         overflow: hidden;
+    }
+
+    .unselected {
+        fill: darkgray;
     }
 
     .sphere {
@@ -129,6 +143,10 @@
         stroke: rgb(88, 45, 45);
     }
 
+    .selected {
+        fill: #42b983;
+    }
+
     .land:hover {
         fill: crimson;
     }
@@ -136,4 +154,5 @@
     rect {
         fill: red;
     }
+
 </style>

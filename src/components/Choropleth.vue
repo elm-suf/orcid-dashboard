@@ -85,7 +85,7 @@
             return {
                 countriesObj: {},
                 chips: [],
-                selectedCountries: [],
+                // selectedCountries: [],
                 lineData: {
                     columns: ['year', 'migrations'],
                     rows: []
