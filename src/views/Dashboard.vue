@@ -15,10 +15,10 @@
                 <ve-line :data="lineData"></ve-line>
             </v-card>
             <v-btn
-                    class="mb-12 mr-4"
+                    class="mb-4 mr-4"
                     color="pink"
                     dark
-                    absolute
+                    fixed
                     bottom
                     right
                     fab
@@ -36,7 +36,7 @@
     import MapComponent from "../components/MapComponent";
     import LineChart from "../components/LineChart";
     import BarChart from "../components/BarChart";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapState} from "vuex";
 
 
     export default {
@@ -79,12 +79,14 @@
             }
         },
         computed: {
+            ...mapState([
+                'selectedCountries',
+            ]),
             ...
                 mapGetters([
-                    'selectedCountry',
-                    'selectedCountries',
-                    'countries',
-                    'dashBar'
+                    // 'selectedCountry',
+                    // 'countries',
+                    // 'dashBar'
                 ])
         }
         ,

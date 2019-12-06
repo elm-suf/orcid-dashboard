@@ -12,9 +12,8 @@
         <g class="group">
             <path :d="generatePath" class="sphere"></path>
             <path
-                    class="land unselected"
                     v-for="(count , index) in countries.features"
-                    :class="{selected : isSelected(getNameByNumeric(count.id))}"
+                    :class="{selected : isSelected(count.id), land:true}"
                     :key="index"
                     :d="generator(count)"
                     @click="countryClicked(count)"
@@ -46,7 +45,6 @@
 
     export default {
         name: "MapComponent",
-        components: {Combo},
         data() {
             return {
                 projection: geoNaturalEarth1(),
@@ -79,7 +77,9 @@
 
         },
 
-        watch: {},
+        created() {
+            // this.$store.dispatch('selectedCountries')
+        },
         computed: {
             ...mapState([
                 'selectedCountries'
@@ -90,21 +90,21 @@
             generatePath() {
                 return this.generator({type: "Sphere"});
             },
-            isSelected(count) {
-                const item = byNumeric[count._uid]
-                console.log('item', item, count)
-                return this.selectedCountries.includes(item);
-            },
+
         },
         methods: {
+            isSelected(count) {
+                const item = byNumeric[count]
+                // console.log('item', count, item, this.selectedCountries)
+                return this.selectedCountries.includes(item);
+            },
             getNameByNumeric(id) {
                 return byNumeric[id]
             },
             countryClicked(count) {
-                console.log("count", count);
-                this.$store.dispatch('selectCountry', this.getNameByNumeric(count.id))
-            }
-            ,
+                // console.log("count", count, );
+                this.$store.dispatch('selectCountry', byNumeric[count.id])
+            },
             selected(item) {
                 console.log("SELECTED", item);
                 this.projection = item;
@@ -139,15 +139,15 @@
 
     path {
         margin: 200px;
-        fill: #42b983;
+        fill: darkgrey;
         stroke: rgb(88, 45, 45);
     }
 
-    .selected {
+    .selected{
         fill: #42b983;
     }
 
-    .land:hover {
+    .path:hover {
         fill: crimson;
     }
 

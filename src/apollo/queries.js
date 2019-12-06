@@ -14,9 +14,15 @@ const inAndOutFromC1 = gql`
 const queryAllCountries = gql`
     {
         countries: country(order_by: {iso2: asc}) {
-            name
-            code: iso2
+            area
             continent
+            gdp
+            internet_hosts
+            internet_users
+            iso2
+            iso3
+            languages
+            name
         }
     }`;
 const queryMigrations = gql`
