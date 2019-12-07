@@ -60,13 +60,11 @@
 <script>
     import Combo from "../_components/ComparingComponent";
     import MapComponent from "../components/MapComponent";
-    import LineChart from "../components/LineChart";
-    import BarChart from "../components/BarChart";
     import {mapGetters, mapState} from "vuex";
 
     export default {
         name: "Dashboard",
-        components: {MapComponent, Combo, LineChart, BarChart},
+        components: {MapComponent, Combo},
         created() {
             this.$store.dispatch("fetchCountries");
             // this.$store.dispatch('fetchMigrations');
