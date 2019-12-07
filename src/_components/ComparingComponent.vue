@@ -8,7 +8,7 @@
             clearable multiple hide-selected light solo>
         <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip v-bind="attrs" :input-value="selected" close @click="select" @click:close="remove(item)">
-                <strong>{{ item.name }} </strong>&nbsp;
+                <strong>{{ item.alpha3 }} </strong>&nbsp;
             </v-chip>
         </template>
     </v-combobox>

@@ -57,7 +57,7 @@
                 countries: {},
                 detailInfo: {},
                 width: 960,
-                height: 300
+                height: 366
             };
         },
         mounted() {

@@ -1,7 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {apolloClient} from './apollo'
-import {inAndOutFromC1, queryMigrations, queryAllCountries, queryGraph, querySeries, queryLines} from './apollo/queries'
+import {
+    inAndOutFromC1,
+    queryMigrations,
+    queryAllCountries,
+    queryGraph,
+    querySeries,
+    queryLines,
+    queryDetails
+} from './apollo/queries'
 import {
     codes,
     byAlpha2,
@@ -33,19 +41,60 @@ export default new Vuex.Store({
         selectedCountry: {},
         selectedCountries: [],
         allCountries: [],
+        lines: {}
     },
     getters: {
-        //countries:Array[240]
-        // 0:Object
-        // __typename:"country"
-        // code:"AD"
-        // continent:"Europe"
-        // name:"Andorra"
-        countries: state => {
-            return state.allCountries.map(el => byAlpha2[el.iso2])
+        selectedCountry: state => state.selectedCountry,
+        barData: (state) => {
+            return {
+                columns: ['country', 'in', 'out'],
+                rows: state.selectedCountries.map(el => el.migrations[0])
+            }
         },
+        lineData: (state, getters) => {
+
+            let tmp = {};
+            let rows = []
+
+            state.selectedCountries.map(country => country.series)
+                .forEach(it =>
+                    it.forEach(item => {
+                        if (tmp[item.year] === undefined)
+                            tmp[item.year] = []
+                        // tmp[item.year].push({'value': item.value, 'country': item.country})
+                        tmp[item.year].push({country: item.country, value: item.value})
+                    }));
+            for (let key in tmp) {
+                let row = {'year': key};
+                tmp[key].forEach(el => row[el.country] = el.value)
+                rows.push(row)
+            }
+
+
+            return {
+                columns: ['year'].concat(state.selectedCountries.map(el => el.alpha2)),
+                rows
+            }
+        },
+
+        detailBarData: state => {
+            return {
+                columns: ['country', 'in', 'out'],
+                rows: state.selectedCountry.in_and_out.filter(el => el.in > 5 && el.out > 10)
+            }
+
+        },
+        countries: state => state.allCountries.map(el => byAlpha2[el.iso2]),
     },
     mutations: {
+        FETCH_COUNTRIES(state, countries) {
+            console.log(countries)
+            state.allCountries = countries
+        },
+        UP_CURRENT(state, iso2) {
+            console.log(iso2)
+            state.selectedCountry = byAlpha2[iso2]
+        },
         INIT(state) {
             state.selectedCountries = []
         },
@@ -53,14 +102,9 @@ export default new Vuex.Store({
             if (!state.selectedCountries.includes(data))
                 state.selectedCountries.push(data)
         },
-        FETCH_COUNTRIES(state, countries) {
-            console.log(countries)
-            state.allCountries = countries
-        },
         DESELECT(state, data) {
             if (state.selectedCountries.includes(data))
                 state.selectedCountries.splice(state.selectedCountries.indexOf(data), 1)
-
         },
     }
     ,
@@ -68,43 +112,25 @@ export default new Vuex.Store({
         selectedCountries({commit}) {
             commit('INIT')
         },
-        selectCountry({commit}, country) {
+        updateCurrent({commit}, iso2) {
+            commit('UP_CURRENT', iso2)
+        },
+        async selectCountry({commit, dispatch}, country) {
+            console.log(country)
+            const {data} = await apolloClient.query({query: queryDetails, variables: {c1: country.alpha2}})
+            // Object.assign(country, )
+            country.migrations = data.all_migrations;
+            country.series = data.series;
+            country.in_and_out = data.in_and_out;
+
             commit('ADD_TO_SELECTED', country)
         },
         deselect({commit}, country) {
             commit('DESELECT', country)
         },
-
-        // updateCurrent({commit, dispatch}, selected) {
-        //     commit('UPDATE_CURRENT', selected)
-        //     dispatch('fetchInAndOutFromC1')
-        // },
-        // async fetchInAndOutFromC1({commit, state}) {
-        //     const {data} = await apolloClient.query({query: inAndOutFromC1, variables: {c1: state.selectedCountry}})
-        //     commit('FETCH_COUNTRIES_FROM_C1', data.migrations_in_out_aggregate)
-        // }
-        // ,
         async fetchCountries({commit}) {
             const {data} = await apolloClient.query({query: queryAllCountries})
             commit('FETCH_COUNTRIES', data.countries)
-        },
-        // async fetchMigrations({commit}) {
-        //     const {data} = await apolloClient.query({query: queryMigrations})
-        //     commit('FETCH_MIGRATIONS', data.migrations)
-        // }
-        // ,
-        // async fetchGraph({commit}) {
-        //     const {data} = await apolloClient.query({query: queryGraph})
-        //     commit('FETCH_GRAPH', data)
-        // },
-        // async fetchSeries({commit}) {
-        //     const {data} = await apolloClient.query({query: querySeries})
-        //     commit('FETCH_SERIES', data)
-        // },
-        // async fetchLineSeries({commit}) {
-        //     const {data} = await apolloClient.query({query: queryLines})
-        //     commit('FETCH_LINES', data)
-        // }
-
+        }
     }
 })

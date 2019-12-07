@@ -1,34 +1,60 @@
+<!--<template>-->
+<!--    <v-container fluid style="max-height: 100%; overflow: auto">-->
+<!--        <v-row class="">-->
+<!--            <div class="col col-md-6  col-sm-12">-->
+<!--                <map-component></map-component>-->
+<!--                <combo></combo>-->
+<!--            </div>-->
+<!--            <div class="col col-md-6  col-sm-12 " style="">-->
+<!--                <ve-bar :data="barData" :settings="chartSettings"></ve-bar>-->
+<!--            </div>-->
+<!--        </v-row>-->
+
+<!--        <v-row>-->
+<!--            <v-card class="col  mx-4">-->
+<!--                <ve-line :data="lineData"></ve-line>-->
+<!--            </v-card>-->
+<!--            <v-btn-->
+<!--                    class="mb-4 mr-4"-->
+<!--                    color="pink"-->
+<!--                    dark-->
+<!--                    fixed-->
+<!--                    bottom-->
+<!--                    right-->
+<!--                    fab>-->
+<!--                <v-icon>mdi-play</v-icon>-->
+
+<!--            </v-btn>-->
+<!--        </v-row>-->
+<!--    </v-container>-->
+<!--</template>-->
+
 <template>
-    <v-container fluid style="max-height: 100%; overflow: hidden">
-        <v-row class="" style=" max-height: 48%">
-            <div class="col col-md-6  col-sm-12">
+    <div class="parent ">
+        <div class="main">
+            <v-card height="100%">
                 <map-component></map-component>
-                <combo></combo>
-            </div>
-            <div class="col col-md-6  col-sm-12 " style="">
-                <ve-bar :data="chartData" :settings="chartSettings"></ve-bar>
-            </div>
-        </v-row>
-
-        <v-row style="max-height: 48%">
-            <v-card class="col mx-4" style="">
-                <ve-line :data="lineData"></ve-line>
+                <v-card-actions class="mt-4">
+                    <combo></combo>
+                </v-card-actions>
             </v-card>
-            <v-btn
-                    class="mb-4 mr-4"
-                    color="pink"
-                    dark
-                    fixed
-                    bottom
-                    right
-                    fab
-            >
-                <v-icon>mdi-play</v-icon>
-
-            </v-btn>
-
-        </v-row>
-    </v-container>
+        </div>
+        <div class="right">
+            <v-card height="100%" v-if="!detailedView">
+                <ve-bar height="520px" :data="barData" :settings="chartSettings" :events="chartEvents">
+                </ve-bar>
+            </v-card>
+            <v-card height="100%" v-if="detailedView">
+                <i @click="chartEvents.click" class="fa fa-arrow-left mt-4 ml-4" aria-hidden="true"></i>
+                <ve-histogram height="480px" :data="detailBarData" :settings="detailSettings"></ve-histogram>
+            </v-card>
+        </div>
+        <div class="bottom">
+            <v-card>
+                <ve-line height="42vh" :data="lineData"></ve-line>
+            </v-card>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -38,65 +64,91 @@
     import BarChart from "../components/BarChart";
     import {mapGetters, mapState} from "vuex";
 
-
     export default {
         name: "Dashboard",
         components: {MapComponent, Combo, LineChart, BarChart},
         created() {
-            // this.$store.dispatch('fetchCountries');
+            this.$store.dispatch("fetchCountries");
             // this.$store.dispatch('fetchMigrations');
         },
         data() {
             return {
-                isPlaying: false,
-                lineData: {
-                    columns: ['date', 'cost', 'profit', 'growthRate', 'people'],
-                    rows: [
-                        {'cost': 1523, 'date': '01/01', 'profit': 1523, 'growthRate': 0.12, 'people': 100},
-                        {'cost': 1223, 'date': '01/02', 'profit': 1523, 'growthRate': 0.345, 'people': 100},
-                        {'cost': 2123, 'date': '01/03', 'profit': 1523, 'growthRate': 0.7, 'people': 100},
-                        {'cost': 4123, 'date': '01/04', 'profit': 1523, 'growthRate': 0.31, 'people': 100},
-                        {'cost': 3123, 'date': '01/05', 'profit': 1523, 'growthRate': 0.12, 'people': 100},
-                        {'cost': 7123, 'date': '01/06', 'profit': 1523, 'growthRate': 0.65, 'people': 100}
-                    ]
+                windowSize: {
+                    x: 0,
+                    y: 0
                 },
+                isPlaying: false,
                 chartSettings: {
                     stack: {
-                        'xxx': ['cost', 'profit']
+                        xxx: ["in", "out"]
+                    },
+                    dataOrder: {
+                        label: "in",
+                        order: "desc"
                     }
                 },
-                chartData: {
-                    columns: ['date', 'cost', 'profit'],
-                    rows: [
-                        {'date': '01/01', 'cost': 123, 'profit': 300},
-                        {'date': '01/02', 'cost': 1223, 'profit': 600},
-                        {'date': '01/03', 'cost': 2123, 'profit': 9000},
-                        {'date': '01/04', 'cost': 4123, 'profit': 1200},
-                        {'date': '01/05', 'cost': 3123, 'profit': 1500},
-                        {'date': '01/06', 'cost': 7123, 'profit': 2000}
-                    ]
+                detailSettings: {
+                    dataOrder: {
+                        label: "in",
+                        order: "desc"
+                    }
+                },
+                detailedView: null,
+                chartEvents: {
+                    click: e => {
+                        console.log(e);
+                        this.flip();
+                        this.$store.dispatch("updateCurrent", e.name);
+                    }
                 }
-            }
+            };
         },
         computed: {
-            ...mapState([
-                'selectedCountries',
-            ]),
-            ...
-                mapGetters([
-                    // 'selectedCountry',
-                    // 'countries',
-                    // 'dashBar'
-                ])
+            ...mapState(["selectedCountries"]),
+            ...mapGetters([
+                "barData",
+                "detailBarData",
+                "lineData",
+                "lines",
+                "selectedCountry"
+                // 'countries',
+                // 'dashBar'
+            ])
+        },
+        methods: {
+            onResize() {
+                this.windowSize = {x: window.innerWidth, y: window.outerHeight};
+            },
+            flip() {
+                this.detailedView = !this.detailedView;
+            }
         }
-        ,
-        methods: {}
-        ,
-    }
+    };
 </script>
 
 <style scoped>
-    .red {
-        background: red;
+    .parent {
+        margin: 4px;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 8px;
+        grid-row-gap: 8px;
+        grid-template-areas: "main main right" "main main right" "main main right" "bottom bottom bottom" "bottom bottom bottom";
+    }
+
+    .right {
+        grid-area: right;
+    }
+
+    .bottom {
+        grid-area: bottom;
+        background: #2c3e50;
+    }
+
+    .main {
+        grid-area: main;
+
     }
 </style>

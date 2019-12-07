@@ -11,18 +11,41 @@ const inAndOutFromC1 = gql`
             }
         }
     }`;
+const queryDetails = gql`
+    query queryDetails($c1: String!){
+        all_migrations(where: {c1: {_eq: $c1}}){
+            country: c1
+            in: all_in
+            out: all_out
+        }
+        series(where: {country: {_eq: $c1}}) {
+            country
+            value
+            year
+        }
+        in_and_out: migrations_in_out(where: {c1: {_eq: $c1}}) {
+            country: c2
+            in
+            out
+        }
+    }`;
 const queryAllCountries = gql`
     {
-        countries: country(order_by: {iso2: asc}) {
+        countries: country {
             area
             continent
-            gdp
-            internet_hosts
-            internet_users
             iso2
             iso3
-            languages
-            name
+            #            migrations: all_migrations {
+            #                in: all_in
+            #                out: all_out
+            #                country:  c1
+            #            }
+            #            series {
+            #                country
+            #                value
+            #                year
+            #            }
         }
     }`;
 const queryMigrations = gql`
@@ -82,5 +105,6 @@ export {
     queryGraph,
     querySeries,
     queryLines,
-    queryAllMigrations
+    queryAllMigrations,
+    queryDetails
 }

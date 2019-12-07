@@ -2,7 +2,6 @@
     <v-app>
         <v-content>
 
-            <!-- Provides the application the proper gutter -->
 
                 <!-- If using vue-router -->
                 <router-view></router-view>
@@ -22,3 +21,10 @@
         }),
     }
 </script>
+
+<style>
+    body, html {
+        height: 100vh;
+        overflow: hidden;
+    }
+</style>
