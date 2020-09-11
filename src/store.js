@@ -1,171 +1,136 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {apolloClient} from './apollo'
-import {inAndOutFromC1, queryMigrations, queryAllCountries, queryGraph, querySeries} from './apollo/queries'
+import {
+    inAndOutFromC1,
+    queryMigrations,
+    queryAllCountries,
+    queryGraph,
+    querySeries,
+    queryLines,
+    queryDetails
+} from './apollo/queries'
+import {
+    codes,
+    byAlpha2,
+    byAlpha3,
+    byNumeric,
+} from 'iso-country-codes';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+// country {
+//     area
+//     continent
+//     currency
+//     fips
+//     gdp
+//     internet_hosts
+//     internet_users
+//     iso2
+//     iso3
+//     language_codes
+//     languages
+//     name
+//     phoneslandline
+//     phonesmobile
+// }
 
 
 export default new Vuex.Store({
     state: {
-        inAndOut: [],
-        countries: [],
-        migrations: [],
-        graphData: [],
-        series: {
-            years: [],
-            series: []
-        },
-        selectedCountry: ""
+        selectedCountry: {},
+        selectedCountries: [],
+        allCountries: [],
+        lines: {}
     },
     getters: {
-        // getMatrix: state => {
-        //     let mat = [];
-        //     state.countries.forEach((el, i) => {
-        //         mat[i] = {
-        //             'code': el.code,
-        //             len: state.migrations.filter(cc => cc.from === el.code).length,
-        //             count_0: state.migrations.filter(cc => cc.from === el.code).filter(x => x === 0).length,
-        //             values: state.migrations.filter(cc => cc.from === el.code)
-        //         }
-        //     });
-        //
-        //     mat = mat.filter(row => row.len > 5);
-        //     const countryList = mat.map(el => el.code);
-        //
-        //     var ret = Array(mat.length).fill(Array(mat.length).fill(0));
-        //     // //todo don't use state.countries.forEach || instead use a filtered list from the line above
-        //     mat.forEach((row, row_index) => {
-        //         countryList.forEach((country, index) => {
-        //                 let find = row.values.find(el => el.to === country);
-        //                 if (find != undefined)
-        //                     ret[row_index][index] = find.value
-        //             }
-        //         )
-        //     });
-        //     return {
-        //         names: countryList,
-        //         matrix: ret
-        //     }
-        //     // var ret = Array(state.countries.length).fill(Array(state.countries.length).fill(0));
-        //     // mat.filter(row => row.values.every(val => val === row[0]))
-        //     // //todo don't use state.countries.forEach || instead use a filtered list from the line above
-        //     // mat.forEach((row, row_index) => {
-        //     //     state.countries.forEach((country, index) => {
-        //     //             let find = row.values.find(el => el.to == country.code);
-        //     //             if (find != undefined)
-        //     //                 ret[row_index][index] = find.value
-        //     //         }
-        //     //     )
-        //     // });
-        //     // return mat.filter(row=> row.len>5)
-        // },
-        series: state => {
-            let tmp = {}
-            state.series.years.forEach(el => tmp[el.year] = [])
-
-            state.series.series.forEach(el => tmp[el.year].push({country: el.country, value: el.value}))
-
-            return tmp
-        },
-        years: state => {
-            return state.series.years.map(el => el.year)
-        },
-        migrations: state => {
-            return state.migrations
-        },
-        chordData: state => {
-            return state.migrations
-        },
-        inAndOut:
-            state => {
-                return state.inAndOut
-            },
-        countries:
-            state => {
-                return state.countries//.map(el => el.name)
-            },
-        selectedCountry:
-            state => {
-                return state.selectedCountry
-            },
-        chartData:
-            state => {
-                return {
-                    columns: ["c2", "in", "out"],
-                    rows: state.inAndOut
-                }
-            },
-        heatMapData:
-            state => {
-                return {
-                    columns: ["from", "to", "value"],
-                    rows: state.migrations
-                }
-            },
-        graphData:
-            state => {
-                return {
-                    columns: ["from", "to", "value"],
-                    rows: state.migrations
-                }
+        selectedCountry: state => state.selectedCountry,
+        barData: (state) => {
+            return {
+                columns: ['country', 'in', 'out'],
+                rows: state.selectedCountries.map(el => el.migrations[0])
             }
-    }
-    ,
-    mutations: {
-        FETCH_SERIES(state, data) {
-            state.series = data
         },
-        FETCH_GRAPH(state, graphData) {
-            state.graphData = graphData
-        }
-        ,
-        FETCH_COUNTRIES_FROM_C1(state, inAndOut) {
-            state.inAndOut = inAndOut.nodes
-        }
-        ,
-        FETCH_MIGRATIONS(state, migrations) {
-            state.migrations = migrations
-        }
-        ,
+        lineData: (state, getters) => {
+
+            let tmp = {};
+            let rows = []
+
+            state.selectedCountries.map(country => country.series)
+                .forEach(it =>
+                    it.forEach(item => {
+                        if (tmp[item.year] === undefined)
+                            tmp[item.year] = []
+                        // tmp[item.year].push({'value': item.value, 'country': item.country})
+                        tmp[item.year].push({country: item.country, value: item.value})
+                    }));
+            for (let key in tmp) {
+                let row = {'year': key};
+                tmp[key].forEach(el => row[el.country] = el.value)
+                rows.push(row)
+            }
+
+
+            return {
+                columns: ['year'].concat(state.selectedCountries.map(el => el.alpha2)),
+                rows
+            }
+        },
+
+        detailBarData: state => {
+            return {
+                columns: ['country', 'in', 'out'],
+                rows: state.selectedCountry.in_and_out.filter(el => el.in > 5 && el.out > 10)
+            }
+
+        },
+        countries: state => state.allCountries.map(el => byAlpha2[el.iso2]),
+    },
+    mutations: {
         FETCH_COUNTRIES(state, countries) {
-            state.countries = countries
-        }
-        ,
-        UPDATE_CURRENT(state, newVal) {
-            state.selectedCountry = newVal
-        }
+            console.log(countries)
+            state.allCountries = countries
+        },
+        UP_CURRENT(state, iso2) {
+            console.log(iso2)
+            state.selectedCountry = byAlpha2[iso2]
+        },
+        INIT(state) {
+            state.selectedCountries = []
+        },
+        ADD_TO_SELECTED(state, data) {
+            if (!state.selectedCountries.includes(data))
+                state.selectedCountries.push(data)
+        },
+        DESELECT(state, data) {
+            if (state.selectedCountries.includes(data))
+                state.selectedCountries.splice(state.selectedCountries.indexOf(data), 1)
+        },
     }
     ,
     actions: {
-        updateCurrent({commit, dispatch}, selected) {
-            commit('UPDATE_CURRENT', selected)
-            dispatch('fetchInAndOutFromC1')
-        }
-        ,
-        async fetchInAndOutFromC1({commit, state}) {
-            const {data} = await apolloClient.query({query: inAndOutFromC1, variables: {c1: state.selectedCountry}})
-            commit('FETCH_COUNTRIES_FROM_C1', data.migrations_in_out_aggregate)
-        }
-        ,
+        selectedCountries({commit}) {
+            commit('INIT')
+        },
+        updateCurrent({commit}, iso2) {
+            commit('UP_CURRENT', iso2)
+        },
+        async selectCountry({commit, dispatch}, country) {
+            console.log(country)
+            const {data} = await apolloClient.query({query: queryDetails, variables: {c1: country.alpha2}})
+            // Object.assign(country, )
+            country.migrations = data.all_migrations;
+            country.series = data.series;
+            country.in_and_out = data.in_and_out;
+
+            commit('ADD_TO_SELECTED', country)
+        },
+        deselect({commit}, country) {
+            commit('DESELECT', country)
+        },
         async fetchCountries({commit}) {
             const {data} = await apolloClient.query({query: queryAllCountries})
             commit('FETCH_COUNTRIES', data.countries)
         }
-        ,
-        async fetchMigrations({commit}) {
-            const {data} = await apolloClient.query({query: queryMigrations})
-            commit('FETCH_MIGRATIONS', data.migrations)
-        }
-        ,
-        async fetchGraph({commit}) {
-            const {data} = await apolloClient.query({query: queryGraph})
-            commit('FETCH_GRAPH', data)
-        },
-        async fetchSeries({commit}) {
-            const {data} = await apolloClient.query({query: querySeries})
-            commit('FETCH_SERIES', data)
-        }
-
     }
 })

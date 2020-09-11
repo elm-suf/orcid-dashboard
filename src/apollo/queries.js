@@ -11,12 +11,41 @@ const inAndOutFromC1 = gql`
             }
         }
     }`;
+const queryDetails = gql`
+    query queryDetails($c1: String!){
+        all_migrations(where: {c1: {_eq: $c1}}){
+            country: c1
+            in: all_in
+            out: all_out
+        }
+        series(where: {country: {_eq: $c1}}) {
+            country
+            value
+            year
+        }
+        in_and_out: migrations_in_out(where: {c1: {_eq: $c1}}) {
+            country: c2
+            in
+            out
+        }
+    }`;
 const queryAllCountries = gql`
     {
-        countries: country(order_by: {iso2: asc}) {
-            name
-            code: iso2
+        countries: country {
+            area
             continent
+            iso2
+            iso3
+            #            migrations: all_migrations {
+            #                in: all_in
+            #                out: all_out
+            #                country:  c1
+            #            }
+            #            series {
+            #                country
+            #                value
+            #                year
+            #            }
         }
     }`;
 const queryMigrations = gql`
@@ -27,6 +56,13 @@ const queryMigrations = gql`
             value: out
         }
     }`;
+const queryAllMigrations = gql`{
+    migrations: migrations_in_out(where: {out: {_gte: "50"}}){
+        from: c1
+        to: c2
+        value: out
+    }
+}`;
 const queryGraph = gql`
     {
         nodes: all_migrations{
@@ -49,10 +85,26 @@ const querySeries = gql`{
     }
 }`;
 
+const queryLines = gql`{
+    years: series(distinct_on: year) {
+        year
+    }
+    series(where: {country: {_in: ["US", "IT", "GB", "SP", "FR", "CH"]}}
+        order_by: {year: asc}) {
+        country
+        value
+        year
+    }
+}`;
+
+
 export {
     inAndOutFromC1,
     queryAllCountries,
     queryMigrations,
     queryGraph,
-    querySeries
+    querySeries,
+    queryLines,
+    queryAllMigrations,
+    queryDetails
 }
