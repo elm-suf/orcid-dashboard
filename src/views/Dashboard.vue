@@ -100,7 +100,7 @@ export default {
 
 <style scoped>
 .parent {
-  background: rgb(139, 126, 153);
+    background: #2c3e50;
   height: 100vh;
   width: 100wh;
   display: grid;

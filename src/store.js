@@ -88,11 +88,9 @@ export default new Vuex.Store({
     },
     mutations: {
         FETCH_COUNTRIES(state, countries) {
-            console.log(countries)
             state.allCountries = countries
         },
         UP_CURRENT(state, iso2) {
-            console.log(iso2)
             state.selectedCountry = byAlpha2[iso2]
         },
         INIT(state) {
@@ -115,8 +113,8 @@ export default new Vuex.Store({
         updateCurrent({commit}, iso2) {
             commit('UP_CURRENT', iso2)
         },
-        async selectCountry({commit, dispatch}, country) {
-            console.log(country)
+      // console.log("SELECTED" , item);
+        async selectCountry({commit}, country) {
             const {data} = await apolloClient.query({query: queryDetails, variables: {c1: country.alpha2}})
             // Object.assign(country, )
             country.migrations = data.all_migrations;

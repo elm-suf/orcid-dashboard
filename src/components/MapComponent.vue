@@ -71,18 +71,19 @@ export default {
   methods: {
     isSelected(count) {
       const item = byNumeric[count];
-      // console.log('item', count, item, this.selectedCountries)
       return this.selectedCountries.includes(item);
     },
     getNameByNumeric(id) {
-      return byNumeric[id];
+      const ret = byNumeric[id];
+      if (ret && ret.name) {
+        return ret.name;
+      }
+      return ret;
     },
     countryClicked(count) {
-      // console.log("count", count, );
       this.$store.dispatch("selectCountry", byNumeric[count.id]);
     },
     selected(item) {
-      // console.log("SELECTED" , item);
       this.projection = item;
     },
   },
@@ -105,8 +106,9 @@ export default {
 }
 
 .sphere {
-  background: #71717C;
-  fill: #71717C;
+  background: #71717c;
+  fill: #71717c;
+  stroke: #2c3e50;
 }
 
 svg {
@@ -122,11 +124,13 @@ path {
 .selected {
   fill: #42b983;
 }
-
-.path:hover {
+.land:hover {
   fill: crimson;
+  background: red;
 }
-
+.selected:hover {
+  fill: #42b983;
+}
 rect {
   fill: red;
 }
