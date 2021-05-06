@@ -27,7 +27,7 @@
     "sigma": "^2.0.0-alpha22",
     "sigma-webpack": "^1.2.0-1",
     "topojson": "^3.0.2",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "v-charts": "^1.19.0",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-rc.2",
